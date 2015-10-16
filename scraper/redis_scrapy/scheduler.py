@@ -6,6 +6,7 @@ import time, random
 from dupefilters import RedisRFPDupefilter
 from queues import RedisPriorityQueue
 
+from scrapy.http import Request
 from scrapy.utils.reqser import request_to_dict, request_from_dict
 
 class RedisScheduler(object):
@@ -54,8 +55,11 @@ class RedisScheduler(object):
 	def next_request(self):
 		item = self._retrieve_from_queue()
 		if item:
-			request = request_from_dict(item, self.spider)
-			return request
+			try:
+				request = request_from_dict(item, self.spider)
+			except KeyError:
+				request = self._request_from_dict(item)
+			return self._populate_request(request, item)
 		else:
 			return None
 
@@ -65,7 +69,31 @@ class RedisScheduler(object):
 			item = self.queue.pop()
 			if item:
 				return item
-			# make different spiders run out of sync
-			time.sleep(random.random())
 			count = count + 1
 		return None
+
+	def _request_from_dict(self, item):
+		request = Request(item['url'])
+		request.meta['crawlid'] = item['crawlid']
+		request.meta['maxdepth'] = item.get('maxdepth', 0)
+		request.priority = item.get('priority', 0)
+		request.meta['priority'] = request.priority
+		return request
+
+	def _populate_request(self, request, item):
+		if 'extra' in item:
+			extra = item['extra']
+		else:
+			extra = request.meta.copy()
+
+		extra.setdefault('priority', request.priority)
+		# link extractor related values
+		extra.setdefault('allow', ())
+		extra.setdefault('deny', ())
+		extra.setdefault('allow_domains', ())
+		extra.setdefault('deny_domains', ())
+		extra.setdefault('restrict_xpaths', ())
+		extra.setdefault('restrict_css', ())
+
+		request.meta.update(extra)
+		return request

@@ -22,7 +22,10 @@ REDIS_PORT = 6379
 SCHEDULER = 'scraper.redis_scrapy.scheduler.RedisScheduler'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'scraper (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0'
+
+# Be polite
+ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -30,7 +33,7 @@ USER_AGENT = 'scraper (+http://www.yourdomain.com)'
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY=0.25
+DOWNLOAD_DELAY=2
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
@@ -39,41 +42,34 @@ DOWNLOAD_DELAY=0.25
 COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED=False
+TELNETCONSOLE_ENABLED=False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
+DEFAULT_REQUEST_HEADERS = {
+   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+   'Accept-Language': 'zh-cn,en;q=0.5',
+}
 
 # Enable or disable spider middlewares
-# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-    'scraper.spidermiddlewares.pagination.FollowPaginationMiddleware': 543,
-    'scraper.spidermiddlewares.meta.RequestMetaMiddleware': 544,
+    'scraper.spidermiddlewares.pagination.FollowPaginationMiddleware': 501,
+    'scrapy.spidermiddlewares.depth.DepthMiddleware': None,
+    'scraper.spidermiddlewares.depth.DepthMiddleware': 900,
+    'scraper.spidermiddlewares.meta.RequestMetaMiddleware': 1000,
 }
 
 # Enable or disable downloader middlewares
-# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'scraper.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
-
-# Enable or disable extensions
-# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    'scrapy.telnet.TelnetConsole': None,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+   'scraper.downloadermiddlewares.useragent.RandomUserAgentMiddleware': 400,
+}
 
 # Configure item pipelines
-# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
 #    'scraper.pipelines.MongoPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
-# See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 # NOTE: AutoThrottle will honour the standard settings for concurrency and delay
 AUTOTHROTTLE_ENABLED=True
 # The initial download delay
@@ -92,4 +88,4 @@ AUTOTHROTTLE_ENABLED=True
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 LOG_LEVEL='INFO'
-PAGINATION_MAX_PAGES=3
+PAGINATION_MAX_PAGES=2
