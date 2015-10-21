@@ -7,16 +7,14 @@ class DepthMiddleware(object):
 	Reimplementation of scrapy.spidermiddlewares.depth.DepthMiddleware
 	which allow the max depth setting be overrided per crawl request.
 	'''
-	def __init__(self, maxdepth, prio=0):
+	def __init__(self, maxdepth):
 		self.maxdepth = maxdepth
-		self.prio = prio
 
 	@classmethod
 	def from_crawler(cls, crawler):
 		settings = crawler.settings
 		maxdepth = settings.getint('DEPTH_LIMIT')
-		prio = settings.getint('DEPTH_PRIORITY')
-		return cls(maxdepth, prio)
+		return cls(maxdepth)
 
 	def process_spider_output(self, response, result, spider):
 		def _filter(request):
@@ -31,8 +29,6 @@ class DepthMiddleware(object):
 					return False
 
 				request.meta['depth'] = depth
-				if self.prio:
-					request.priority -= self.prio * depth
 			return True
 
 		# base case (depth=0)

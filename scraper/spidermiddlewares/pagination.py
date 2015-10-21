@@ -33,7 +33,7 @@ class FollowPaginationMiddleware(object):
 
 		return (r for r in result or () if _filter(r))
 
-def pagination_rule(rule):
+def PaginationRule(rule):
 	"""
 	Wrap the scrapy.spiders.Rule to make it automatically follow pagination links.
 	"""

@@ -12,10 +12,8 @@ class SimpleSpider(RedisSpider):
 		super(SimpleSpider, self).__init__(*args, **kwargs)
 
 	def parse(self, response):
-		print response.url
-		
-		le = self._create_link_extractor(response.meta)
-		for link in le.extract_links(response):
+		link_extractor = self._create_link_extractor(response.meta)
+		for link in link_extractor.extract_links(response):
 			yield Request(link.url)
 
 	def _create_link_extractor(self, meta):
