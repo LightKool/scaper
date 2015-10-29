@@ -22,7 +22,8 @@ class WDZJNewsSpider(RedisMixin, CrawlSpider):
 	}
 
 	rules = (
-		Rule(LinkExtractor(allow=('/news/[^/]+/\d+\.html',), restrict_css=('div.specialBox',)),
+		Rule(LinkExtractor(allow=('/news/[^/]+/\d+\.html',),
+			restrict_css=('div.specialBox',)),
 			callback='parse_news_content'),
 		PaginationRule(Rule(LinkExtractor(allow=('/news/[^/]+/p\d+\.html'),
 			# tricky point: the :nth-last-of-type is 0-based instead of the
@@ -37,7 +38,6 @@ class WDZJNewsSpider(RedisMixin, CrawlSpider):
 	def parse_start_url(self, response):
 		frontpage_link_extractor = LinkExtractor(restrict_css=('div.news_box>div.nbs_1 li.nbs_li',))
 		for link in frontpage_link_extractor.extract_links(response):
-			print link.url
 			yield Request(url=link.url)
 
 	def parse_news_content(self, response):

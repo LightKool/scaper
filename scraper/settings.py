@@ -14,15 +14,8 @@ BOT_NAME = 'scraper'
 SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
-# Redis settings
-REDIS_HOST = '120.132.51.176'
-REDIS_PORT = 6379
-
 # Scheduler setting
 SCHEDULER = 'scraper.redis_scrapy.scheduler.RedisScheduler'
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0'
 
 # Be polite
 ROBOTSTXT_OBEY = True
@@ -89,6 +82,10 @@ AUTOTHROTTLE_ENABLED = True
 
 LOG_LEVEL = 'INFO'
 PAGINATION_MAX_PAGES = 2
+
+# Redis settings
+REDIS_HOST = '120.132.51.176'
+REDIS_PORT = 6379
 
 # ElasticSearch settings
 ELASTICSEARCH_HOST = '120.132.51.176'
