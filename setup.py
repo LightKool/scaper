@@ -17,7 +17,7 @@ setup(
 	include_package_data=True,
 	zip_safe=False,
 	entry_points={
-		'scrapy': ['settings = scraper.settings'],
+		'console_scripts': ['scraperd = scraperd.scripts.run:main'],
 	},
 	install_requires=[
 		'beautifulsoup4',

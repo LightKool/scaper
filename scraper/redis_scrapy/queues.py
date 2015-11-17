@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import redis
-try:
-	import cPickle as pickle
-except ImportError:
-	import pickle
+import json
 
 
 class Base(object):
@@ -15,10 +12,10 @@ class Base(object):
 		self.key = key
 
 	def _encode_item(self, item):
-		return pickle.dumps(item, protocol=-1)
+		return json.dumps(item)
 
 	def _decode_item(self, item):
-		return pickle.loads(item)
+		return json.loads(item)
 
 	def __len__(self):
 		raise NotImplementedError
