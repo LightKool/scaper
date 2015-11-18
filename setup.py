@@ -4,7 +4,6 @@ from os.path import dirname, join
 
 from setuptools import setup, find_packages
 
-
 with open(join(dirname(__file__), 'scraper/VERSION'), 'rb') as f:
 	version = f.read().decode('ascii').strip()
 
@@ -17,7 +16,7 @@ setup(
 	include_package_data=True,
 	zip_safe=False,
 	entry_points={
-		'console_scripts': ['scraperd = scraperd.scripts.run:main'],
+		'console_scripts': ['scraperd = scraper.daemon.script:main'],
 	},
 	install_requires=[
 		'beautifulsoup4',

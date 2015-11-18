@@ -1,5 +1,6 @@
-from zope.interface import Interface
+# -*- coding: utf-8 -*-
 
+from zope.interface import Interface
 
 class IPoller(Interface):
 	"""A component that polls for crawl jobs that need to run"""
@@ -20,7 +21,6 @@ class IPoller(Interface):
 		This message will be passed later to IEnvironment.get_environment().
 		"""
 
-
 class ISpiderQueue(Interface):
 
 	def add(name, **spider_args):
@@ -39,7 +39,6 @@ class ISpiderQueue(Interface):
 		"""Return the number of spiders in the queue.
 
 		This method can return a deferred. """
-
 
 class IEnvironment(Interface):
 	"""A component to generate the environment of crawler processes"""

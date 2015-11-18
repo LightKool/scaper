@@ -15,7 +15,7 @@ SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
 # Scheduler setting
-SCHEDULER = 'scraper.redis_scrapy.scheduler.RedisScheduler'
+SCHEDULER = 'scraper.core.scheduler.RedisScheduler'
 
 # Be polite
 ROBOTSTXT_OBEY = True
@@ -90,3 +90,10 @@ REDIS_PORT = 6379
 # ElasticSearch settings
 ELASTICSEARCH_HOST = '120.132.51.176'
 ELASTICSEARCH_PORT = 9200
+
+# Scraperd settings
+DAEMON_MAX_PROC = 0
+DAEMON_MAX_PROC_PER_CPU = 4
+DAEMON_POLL_INTERVAL = 5
+DAEMON_FINISHED_TO_KEEP = 100
+DAEMON_LOGS_DIR = '/var/log'

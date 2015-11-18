@@ -1,4 +1,2 @@
 include MANIFEST.in
 include scraper/VERSION
-include scraperd/VERSION
-include scraperd/default.conf
