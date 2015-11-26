@@ -83,17 +83,23 @@ AUTOTHROTTLE_ENABLED = True
 LOG_LEVEL = 'INFO'
 PAGINATION_MAX_PAGES = 2
 
-# Redis settings
-REDIS_HOST = '120.132.51.176'
-REDIS_PORT = 6379
-
-# ElasticSearch settings
-ELASTICSEARCH_HOST = '120.132.51.176'
-ELASTICSEARCH_PORT = 9200
-
 # Scraperd settings
 DAEMON_MAX_PROC = 0
 DAEMON_MAX_PROC_PER_CPU = 4
 DAEMON_POLL_INTERVAL = 5
 DAEMON_FINISHED_TO_KEEP = 100
 DAEMON_LOGS_DIR = '/var/log'
+
+# code snippet to load environment dependant settings.
+# MUST RESIDE AFTER ALL SETTINGS!
+import os
+profile = os.getenv('SCRAPY_PROFILE', 'dev').lower()
+if profile == 'dev':
+	from .dev import *
+elif profile == 'test':
+	from .test import *
+elif profile == 'prod':
+	from .prod import *
+else:
+	from .dev import *
+# MUST RESIDE AFTER ALL SETTINGS!

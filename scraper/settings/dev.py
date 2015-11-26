@@ -1,0 +1,7 @@
+# Redis settings
+REDIS_HOST = '120.132.51.176'
+REDIS_PORT = 6379
+
+# ElasticSearch settings
+ELASTICSEARCH_HOST = '120.132.51.176'
+ELASTICSEARCH_PORT = 9200
