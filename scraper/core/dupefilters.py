@@ -31,19 +31,4 @@ class RedisRFPDupefilter(BaseDupeFilter):
 class RedisBFDupefilter(BaseDupeFilter):
 	pass
 
-
-def main():
-	import redis
-	from scrapy.http import Request
-
-	req = Request(url='http://www.google.com')
-	req.meta['crawlid'] = 'abcd0123'
-	server = redis.StrictRedis(host='120.132.51.176')
-	key = 'dupefilter'
-	df = RedisRFPDupefilter(server, key, 600)
-	print df.request_seen(req)
-	print df.request_seen(req)
-	df.close()
-
-if __name__ == '__main__':
-	main()
+__all__ = ['RedisRFPDupefilter']

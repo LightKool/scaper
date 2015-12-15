@@ -51,18 +51,4 @@ class RedisPriorityQueue(Base):
 			return self._decode_item(results[0])
 
 
-__all__ = ['RedisQueue', 'RedisPriorityQueue']
-
-
-def main():
-	server = redis.StrictRedis(host='120.132.51.176')
-	key = 'redisqueue'
-	q = RedisPriorityQueue(server, key)
-	q.push('foo', 100)
-	q.push('bar', 190)
-	print q.pop()
-	print q.pop()
-	q.clear()
-
-if __name__ == '__main__':
-	main()
+__all__ = ['RedisPriorityQueue']

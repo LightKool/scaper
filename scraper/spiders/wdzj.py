@@ -13,8 +13,8 @@ import html2text
 
 class WDZJNewsSpider(RedisMixin, CrawlSpider):
 	name = 'wdzj_news'
-	allowed_domains = ['wangdaizhijia.com']
-	start_urls = ['http://www.wangdaizhijia.com/news']
+	allowed_domains = ['wdzj.com']
+	start_urls = ['http://www.wdzj.com/news']
 	custom_settings = {
 		'ITEM_PIPELINES': {
 			'scraper.pipelines.elastic.ElasticDocumentPipeline': 100,

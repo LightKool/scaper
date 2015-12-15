@@ -2,7 +2,7 @@
 
 from scrapy.item import Field
 
-from .elastic import ElasticDocumentItem
+from . import ElasticDocumentItem
 
 class WDZJNewsItem(ElasticDocumentItem):
 	title = Field()

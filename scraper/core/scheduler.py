@@ -43,7 +43,7 @@ class RedisScheduler(object):
 			self.queue.clear()
 
 	def has_pending_requests(self):
-		return False
+		return len(self.queue) > 0
 
 	def enqueue_request(self, request):
 		if not request.dont_filter and self.dupefilter.request_seen(request):

@@ -25,4 +25,4 @@ Scraper是一个基于[Scrapy](http://scrapy.org/)修改而来，依靠[Redis](h
 + 运行`git clone https://github.com/LightKool/scraper.git`
 + 运行`cd scraper && python setup.py install`
 + 运行`scraperd`
-+ 现在`craper daemon`已经在运行了，利用任意Redis客户端（控制程序尚未开发完成）运行Redis指令`zadd scraperd:spider:queue 100 "{\"name\": \"[spidername]\"}"`，此时一个新的进程就会被创建并且运行名为[spidername]的Spider（具体参见[Scrapy文档](http://doc.scrapy.org/en/latest/topics/spiders.html)）。
++ 现在`scraper daemon`已经在运行了，利用任意Redis客户端（控制程序尚未开发完成）运行Redis指令`zadd scraperd:spider:queue 100 "{\"name\": \"[spidername]\"}"`，此时一个新的进程就会被创建并且运行名为[spidername]的Spider（具体参见[Scrapy文档](http://doc.scrapy.org/en/latest/topics/spiders.html)）。

@@ -31,7 +31,7 @@ class RedisMixin(object):
 class RedisSpider(RedisMixin, Spider):
 	'''
 	Base spider to process distributed crawls backed by Redis from
-	which all spiders in this project should subclass.
+	which all long-run spiders in this project should subclass.
 	'''
 	def _set_crawler(self, crawler):
 		super(RedisSpider, self)._set_crawler(crawler)
