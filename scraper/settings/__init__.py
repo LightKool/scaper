@@ -55,6 +55,7 @@ SPIDER_MIDDLEWARES = {
 DOWNLOADER_MIDDLEWARES = {
    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
    'scraper.downloadermiddlewares.useragent.RandomUserAgentMiddleware': 400,
+   'scraper.downloadermiddlewares.meta.RequestMetaMiddleware': 100,
 }
 
 # Configure item pipelines

@@ -33,4 +33,9 @@ class MongoItem(Item):
 		self._col_name = col_name
 
 	def do_process(self, db):
+		'''
+		Callback method called by the ItemPipeline to do the actual mongo operations.
+		
+		Accept a pymongo.database.Database instance as parameter.
+		'''
 		raise NotImplementedError

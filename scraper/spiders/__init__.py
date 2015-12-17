@@ -9,30 +9,22 @@ from scrapy import signals
 from scrapy.spiders import Spider
 from scrapy.exceptions import DontCloseSpider
 
-
 class RedisMixin(object):
-	def setup(self):
-		self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
-
-	def make_requests_from_url(self, url):
-		'''
-		Override the make_requests_from_url method to set the default crawlid.
-		Useful for hard code spider implementations.
-		'''
-		request = super(RedisMixin, self).make_requests_from_url(url)
-		if 'crawlid' not in request.meta:
-			request.meta['crawlid'] = 'default'
-		return request
-
-	def spider_idle(self):
-		# The spider won't be stopped after idle
-		raise DontCloseSpider
-
-class RedisSpider(RedisMixin, Spider):
 	'''
 	Base spider to process distributed crawls backed by Redis from
 	which all long-run spiders in this project should subclass.
 	'''
 	def _set_crawler(self, crawler):
-		super(RedisSpider, self)._set_crawler(crawler)
-		self.setup()
+		super(RedisMixin, self)._set_crawler(crawler)
+		self.init()
+
+	def init(self):
+		pass
+
+class RedisSpider(RedisMixin, Spider):
+	def init(self):
+		self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
+
+	def spider_idle(self):
+		# The spider won't be stopped after idle
+		raise DontCloseSpider
