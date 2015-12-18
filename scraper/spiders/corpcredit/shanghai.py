@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import re
-
 from scrapy.spiders import Spider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.http import Request, FormRequest
@@ -19,23 +17,21 @@ class ShanghaiSpider(RedisMixin, Spider):
 		'ITEM_PIPELINES': {
 			'scraper.pipelines.mongo.MongoDBPipeline': 100,
 		},
-		'DOWNLOAD_DELAY': 5, # safe delay
+		'DOWNLOAD_DELAY': 3, # safe delay
 		# 'HTTPCACHE_ENABLED': True, # test purpose
 	}
 
 	def init(self):
 		self.col_name = self.settings.get('CORP_CREDIT_COL_NAME', 'corp_credit')
-		self.maxpage = self.settings.getint('CORP_CREDIT_MAX_PAGE', 100)
+		self.maxpage = self.settings.getint('CORP_CREDIT_MAX_PAGE', 50)
+		# The maximum page number the URL
+		# [https://www.sgs.gov.cn/notice/search/ent_spot_check_list]
+		# supports is 50.
+		self.maxpage = 50 if self.maxpage <= 0 else min(self.maxpage, 50)
 		self.link_extractor = LinkExtractor(restrict_css=['table.list-table'])
 
 	def parse(self, response):
 		self.session_token = response.xpath('//input[@name="session.token"]/@value').extract_first()
-		m = re.search(r'page:\s*"(\d+)"', response.body)
-		if m:
-			page_num = int(m.group(1))
-			self.maxpage = page_num if self.maxpage <= 0 else min(self.maxpage, page_num)
-		elif self.maxpage <= 0:
-			self.maxpage = 100
 		return self.parse_list(response)
 
 	def parse_list(self, response):
