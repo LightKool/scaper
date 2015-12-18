@@ -5,7 +5,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.http import Request, FormRequest
 
 from scraper.spiders import RedisMixin
-from scraper.items.corpcredit import CorpCredit, Shareholder, Subsidiary, Staff
+from scraper.items.corpcredit import *
 from scraper.utils import safe_strip
 
 class ShanghaiSpider(RedisMixin, Spider):
@@ -23,11 +23,11 @@ class ShanghaiSpider(RedisMixin, Spider):
 
 	def init(self):
 		self.col_name = self.settings.get('CORP_CREDIT_COL_NAME', 'corp_credit')
-		self.maxpage = self.settings.getint('CORP_CREDIT_MAX_PAGE', 50)
+		maxpage = self.settings.getint('CORP_CREDIT_MAX_PAGE', 50)
 		# The maximum page number the URL
 		# [https://www.sgs.gov.cn/notice/search/ent_spot_check_list]
 		# supports is 50.
-		self.maxpage = 50 if self.maxpage <= 0 else min(self.maxpage, 50)
+		self.maxpage = 50 if maxpage <= 0 else min(maxpage, 50)
 		self.link_extractor = LinkExtractor(restrict_css=['table.list-table'])
 
 	def parse(self, response):
@@ -51,7 +51,7 @@ class ShanghaiSpider(RedisMixin, Spider):
 
 	def parse_info(self, response):
 		table = response.xpath('//div[@rel="layout-01_01"][1]/table')[0]
-		item = CorpCredit(self.col_name)
+		item = LimitedCorpCredit(self.col_name)
 		item['reg_no'] = safe_strip(table.xpath('tr[2]/td[1]/text()').extract_first())
 		item['corp_name'] = safe_strip(table.xpath('tr[2]/td[2]/text()').extract_first())
 		item['corp_type'] = safe_strip(table.xpath('tr[3]/td[1]/text()').extract_first())
