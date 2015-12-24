@@ -18,6 +18,10 @@ class SimpleShanghaiSpider(RedisSpider):
 		},
 	}
 
+	def init(self):
+		super(SimpleShanghaiSpider, self).init()
+		self.col_name = self.settings.get('CORP_CREDIT_COL_NAME', 'corp_credit')
+
 	def parse(self, response):
 		table = response.xpath('//div[@rel="layout-01_01"][1]/table')[0]
 		item = LimitedCorpCredit(self.col_name)
@@ -88,6 +92,10 @@ class SimpleGuangdongSpider(RedisSpider):
 			'scraper.pipelines.mongo.MongoDBPipeline': 100,
 		},
 	}
+
+	def init(self):
+		super(SimpleGuangdongSpider, self).init()
+		self.col_name = self.settings.get('CORP_CREDIT_COL_NAME', 'corp_credit')
 
 	def parse(self, response):
 		table = response.css('#baseinfo')[0]

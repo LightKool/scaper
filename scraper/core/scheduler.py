@@ -74,7 +74,7 @@ class RedisScheduler(object):
 
 	def _request_from_dict(self, item):
 		request = Request(item['url'])
-		request.meta['crawlid'] = item['crawlid']
+		request.meta['crawlid'] = item.get('crawlid', 'default')
 		request.meta['maxdepth'] = item.get('maxdepth', 0)
 		request.priority = item.get('priority', 0)
 		request.meta['priority'] = request.priority
