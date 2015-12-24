@@ -19,6 +19,7 @@ setup(
 		'console_scripts': ['scraperd = scraper.daemon.script:main'],
 	},
 	install_requires=[
+		'PyOpenSSL',
 		'Scrapy',
 		'beautifulsoup4',
 		'elasticsearch',
