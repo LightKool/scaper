@@ -7,5 +7,5 @@ from sys import argv
 from scraper import daemon
 
 def main():
-    argv[1:1] = ['-n', '-y', join(dirname(daemon.__file__), 'tac.py')]
+    argv[1:1] = ['-y', join(dirname(daemon.__file__), 'tac.py')]
     run()
