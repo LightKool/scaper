@@ -82,8 +82,9 @@ class CninfoSpider(RedisMixin, Spider):
 		item['stock_id'] = response.meta['stock_id']
 		shareholders = []
 		table = response.css('div.zx_left table')[0]
+		rowspan = int(table.xpath('tr[2]/td/@rowspan').extract_first())
 		chars = '1234567890.'
-		for i in xrange(2, 12):
+		for i in xrange(2, 2 + rowspan):
 			s = Shareholder()
 			if i == 2:
 				s['name'] = safe_strip(table.xpath('tr[%d]/td[2]/text()' % i).extract_first(), chars)
