@@ -98,7 +98,7 @@ class SimpleGuangdongSpider(RedisSpider):
 		self.col_name = self.settings.get('CORP_CREDIT_COL_NAME', 'corp_credit')
 
 	def parse(self, response):
-		table = response.css('#baseinfo')[0]
+		table = response.css('#jibenxinxi table')[0]
 		if len(table.xpath('tr')) == 9:
 			item = IndividualCorpCredit(self.col_name)
 			item['reg_no'] = safe_strip(table.xpath('tr[3]/td[1]/text()').extract_first())
