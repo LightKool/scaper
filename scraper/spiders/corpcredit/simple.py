@@ -99,7 +99,21 @@ class SimpleGuangdongSpider(RedisSpider):
 
 	def parse(self, response):
 		table = response.css('#jibenxinxi table')[0]
-		if len(table.xpath('tr')) == 9:
+		if 'szcredit' in response.url:
+			item = LimitedCorpCredit(self.col_name)
+			item['reg_no'] = safe_strip(table.xpath('tr[3]/td[1]/span/text()').extract_first())
+			item['corp_name'] = safe_strip(table.xpath('tr[3]/td[2]/span/text()').extract_first())
+			item['corp_type'] = safe_strip(table.xpath('tr[4]/td[1]/span/text()').extract_first())
+			item['legal_rep'] = safe_strip(table.xpath('tr[4]/td[2]/span/text()').extract_first())
+			item['reg_capital'] = safe_strip(table.xpath('tr[5]/td[1]/span/text()').extract_first())
+			item['fund_date'] = safe_strip(table.xpath('tr[5]/td[2]/span/text()').extract_first())
+			item['address'] = safe_strip(table.xpath('tr[6]/td/span/text()').extract_first())
+			item['op_period_from'] = safe_strip(table.xpath('tr[7]/td[1]/span/text()').extract_first())
+			item['op_period_to'] = safe_strip(table.xpath('tr[7]/td[2]/span/text()').extract_first())
+			item['reg_office'] = safe_strip(table.xpath('tr[3]/td[1]/span/text()').extract_first())
+			item['appr_date'] = safe_strip(table.xpath('tr[3]/td[2]/span/text()').extract_first())
+			item['reg_status'] = safe_strip(table.xpath('tr[9]/td[1]/span/text()').extract_first())
+		elif len(table.xpath('tr')) == 9:
 			item = IndividualCorpCredit(self.col_name)
 			item['reg_no'] = safe_strip(table.xpath('tr[3]/td[1]/text()').extract_first())
 			item['corp_name'] = safe_strip(table.xpath('tr[3]/td[2]/text()').extract_first())
