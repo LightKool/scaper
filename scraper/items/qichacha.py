@@ -25,6 +25,7 @@ class CorpInfo(MongoItem):
 
 	shareholders = Field()
 	investments = Field()
+	subsidiaries = Field()
 
 	def do_process(self, db):
 		db[self._col_name].update_one({'uid': self['uid']},
@@ -39,5 +40,9 @@ class Shareholder(Item):
 	method = Field()
 
 class Investment(Item):
+	corp_uid = Field()
+	corp_name = Field()
+
+class Subsidiary(Item):
 	corp_uid = Field()
 	corp_name = Field()

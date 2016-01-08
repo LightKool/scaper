@@ -73,7 +73,7 @@ class QichachaSpider(RedisMixin, Spider):
 		
 		# parse shareholders and related pages
 		shareholders = []
-		for a in response.css('.white a[href*=firm]'):
+		for a in response.css('tr.white>td>div>a[href*=firm]'):
 			# yield request
 			url = response.urljoin(a.xpath('@href').extract_first())
 			yield Request(url=url, callback=self.parse_info)
@@ -87,8 +87,7 @@ class QichachaSpider(RedisMixin, Spider):
 			shareholder['paid_amount'] = safe_extract(tr.xpath('td[4]/p/text()'), sep='/')
 			shareholder['method'] = safe_extract(tr.xpath('td[5]/text()'))
 			shareholders.append(shareholder)
-		
-		for a in response.css('.white a[href*=search]'):
+		for a in response.css('tr.white>td>div>a[href*=search]'):
 			shareholder = Shareholder()
 			shareholder['name'] = safe_extract(a.xpath('text()'))
 			tr = a.xpath('../../../..')
@@ -97,8 +96,21 @@ class QichachaSpider(RedisMixin, Spider):
 			shareholder['paid_amount'] = safe_extract(tr.xpath('td[4]/p/text()'), sep='/')
 			shareholder['method'] = safe_extract(tr.xpath('td[5]/text()'))
 			shareholders.append(shareholder)
-
 		item['shareholders'] = shareholders
+
+		# parse subsidiaries
+		subsidiaries = []
+		for a in response.css('tr.white>td>a'):
+			# yield request
+			url = response.urljoin(a.xpath('@href').extract_first())
+			yield Request(url=url, callback=self.parse_info)
+
+			subsidiary = Subsidiary()
+			subsidiary['corp_uid'] = self._extract_uid(url)
+			subsidiary['corp_name'] = safe_strip(a.xpath('text()').extract_first())
+			subsidiaries.append(subsidiary)
+		item['subsidiaries'] = subsidiaries
+
 		yield item
 
 	def parse_investment(self, response):
