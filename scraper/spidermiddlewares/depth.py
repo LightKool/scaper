@@ -2,6 +2,9 @@
 
 from scrapy.http import Request
 
+class HoldDepthRequest(Request):
+	pass
+
 class DepthMiddleware(object):
 	'''
 	Reimplementation of scrapy.spidermiddlewares.depth.DepthMiddleware
@@ -19,7 +22,8 @@ class DepthMiddleware(object):
 	def process_spider_output(self, response, result, spider):
 		def _filter(request):
 			if isinstance(request, Request):
-				depth = response.meta['depth'] + 1
+				hold_depth = isinstance(request, HoldDepthRequest)
+				depth = response.meta['depth'] if hold_depth else response.meta['depth'] + 1
 				# get the actual maxdepth which could be overrided
 				maxdepth = self.maxdepth
 				if 'maxdepth' in response.meta:
