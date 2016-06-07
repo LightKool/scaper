@@ -3,7 +3,6 @@
 import datetime
 import os
 
-from w3lib.url import path_to_file_uri
 from zope.interface import implements
 
 from scraper.daemon import SCRAPY_SETTINGS_MODULE

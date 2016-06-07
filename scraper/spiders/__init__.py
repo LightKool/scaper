@@ -10,21 +10,21 @@ from scrapy.spiders import Spider
 from scrapy.exceptions import DontCloseSpider
 
 class RedisMixin(object):
-	'''
-	Base spider to process distributed crawls backed by Redis from
-	which all long-run spiders in this project should subclass.
-	'''
-	def _set_crawler(self, crawler):
-		super(RedisMixin, self)._set_crawler(crawler)
-		self.init()
+    '''
+    Base spider to process distributed crawls backed by Redis from
+    which all long-run spiders in this project should subclass.
+    '''
+    def _set_crawler(self, crawler):
+        super(RedisMixin, self)._set_crawler(crawler)
+        self.init()
 
-	def init(self):
-		pass
+    def init(self):
+        pass
 
 class RedisSpider(RedisMixin, Spider):
-	def init(self):
-		self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
+    def init(self):
+        self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
 
-	def spider_idle(self):
-		# The spider won't be stopped after idle
-		raise DontCloseSpider
+    def spider_idle(self):
+        # The spider won't be stopped after idle
+        raise DontCloseSpider

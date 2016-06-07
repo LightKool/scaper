@@ -1,5 +1,5 @@
 # Redis settings
-REDIS_HOST = 'localhost'
+REDIS_HOST = '192.168.172.128'
 REDIS_PORT = 6379
 
 # ElasticSearch settings

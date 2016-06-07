@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import redis
-import time, random
 
 from dupefilters import RedisRFPDupefilter
 from queues import RedisPriorityQueue
