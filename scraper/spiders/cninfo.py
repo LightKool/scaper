@@ -9,6 +9,7 @@ from scraper.spiders import RedisMixin
 from scraper.items.cninfo import *
 from scraper.utils import safe_strip
 
+
 class CninfoSpider(RedisMixin, Spider):
     name = 'cninfo'
     allowed_domains = ['www.cninfo.com.cn']

@@ -2,41 +2,44 @@
 
 from scrapy.http import Request
 
+
 class HoldDepthRequest(Request):
-	pass
+    pass
+
 
 class DepthMiddleware(object):
-	'''
-	Reimplementation of scrapy.spidermiddlewares.depth.DepthMiddleware
-	which allow the max depth setting be overrided per crawl request.
-	'''
-	def __init__(self, maxdepth):
-		self.maxdepth = maxdepth
+    """
+    Reimplementation of scrapy.spidermiddlewares.depth.DepthMiddleware
+    which allow the max depth setting be overrided per crawl request.
+    """
 
-	@classmethod
-	def from_crawler(cls, crawler):
-		settings = crawler.settings
-		maxdepth = settings.getint('DEPTH_LIMIT')
-		return cls(maxdepth)
+    def __init__(self, maxdepth):
+        self.maxdepth = maxdepth
 
-	def process_spider_output(self, response, result, spider):
-		def _filter(request):
-			if isinstance(request, Request):
-				hold_depth = isinstance(request, HoldDepthRequest)
-				depth = response.meta['depth'] if hold_depth else response.meta['depth'] + 1
-				# get the actual maxdepth which could be overrided
-				maxdepth = self.maxdepth
-				if 'maxdepth' in response.meta:
-					maxdepth = response.meta['maxdepth']
-					request.meta['maxdepth'] = maxdepth
-				if maxdepth and depth > maxdepth:
-					return False
+    @classmethod
+    def from_crawler(cls, crawler):
+        settings = crawler.settings
+        maxdepth = settings.getint('DEPTH_LIMIT')
+        return cls(maxdepth)
 
-				request.meta['depth'] = depth
-			return True
+    def process_spider_output(self, response, result, spider):
+        def _filter(request):
+            if isinstance(request, Request):
+                hold_depth = isinstance(request, HoldDepthRequest)
+                depth = response.meta['depth'] if hold_depth else response.meta['depth'] + 1
+                # get the actual maxdepth which could be overrided
+                maxdepth = self.maxdepth
+                if 'maxdepth' in response.meta:
+                    maxdepth = response.meta['maxdepth']
+                    request.meta['maxdepth'] = maxdepth
+                if maxdepth and depth > maxdepth:
+                    return False
 
-		# base case (depth=0)
-		if 'depth' not in response.meta:
-			response.meta['depth'] = 0
+                request.meta['depth'] = depth
+            return True
 
-		return (r for r in result or () if _filter(r))
+        # base case (depth=0)
+        if 'depth' not in response.meta:
+            response.meta['depth'] = 0
+
+        return (r for r in result or () if _filter(r))

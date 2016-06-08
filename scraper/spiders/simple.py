@@ -5,6 +5,7 @@ from scrapy.http.request import Request
 
 from . import RedisSpider
 
+
 class SimpleSpider(RedisSpider):
     name = 'simple'
 

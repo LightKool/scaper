@@ -12,6 +12,7 @@ from scraper.items.qichacha import *
 from scraper.utils import safe_strip, safe_extract
 from scraper.spidermiddlewares.depth import HoldDepthRequest
 
+
 class QichachaSpider(RedisMixin, Spider):
     name = 'qichacha'
     allowed_domains = ['qichacha.com']
@@ -48,7 +49,7 @@ class QichachaSpider(RedisMixin, Spider):
             u'住所': 'address',
             u'经营范围': 'busi_scope',
         }
-        self.label_strip_chars = whitespace+u':：'
+        self.label_strip_chars = whitespace + u':：'
         self.uid_pattern = re.compile('firm_(.+)_(.+)')
 
     def make_requests_from_url(self, url):

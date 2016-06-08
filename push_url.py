@@ -9,8 +9,8 @@ from scrapy.spiderloader import SpiderLoader
 
 from scraper.daemon import get_scraper_settings
 
-class UrlPusher(object):
 
+class UrlPusher(object):
     def __init__(self):
         settings = get_scraper_settings()
         loader = SpiderLoader.from_settings(settings)
@@ -25,6 +25,7 @@ class UrlPusher(object):
         for url in urls:
             data = json.dumps({'url': url})
             self.server.zadd(key, **{data: 0})
+
 
 if __name__ == '__main__':
     argv = sys.argv[1:]

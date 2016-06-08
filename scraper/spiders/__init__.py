@@ -9,17 +9,20 @@ from scrapy import signals
 from scrapy.spiders import Spider
 from scrapy.exceptions import DontCloseSpider
 
+
 class RedisMixin(object):
-    '''
+    """
     Base spider to process distributed crawls backed by Redis from
     which all long-run spiders in this project should subclass.
-    '''
+    """
+
     def _set_crawler(self, crawler):
         super(RedisMixin, self)._set_crawler(crawler)
         self.init()
 
     def init(self):
         pass
+
 
 class RedisSpider(RedisMixin, Spider):
     def init(self):

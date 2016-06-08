@@ -4,6 +4,7 @@ from scrapy.item import Field
 
 from . import ElasticDocumentItem
 
+
 class WDZJNewsItem(ElasticDocumentItem):
-	title = Field()
-	content = Field()
+    title = Field()
+    content = Field()

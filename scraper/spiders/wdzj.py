@@ -5,11 +5,12 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.http import Request
 
 from . import RedisMixin
-from scraper.spidermiddlewares.pagination import PaginationRule
+from scraper.spidermiddlewares.pagination import pagination_rule
 from scraper.items.wdzj import WDZJNewsItem
 
 from readability.readability import Document
 import html2text
+
 
 class WDZJNewsSpider(RedisMixin, CrawlSpider):
     name = 'wdzj_news'
@@ -26,9 +27,9 @@ class WDZJNewsSpider(RedisMixin, CrawlSpider):
             allow=('/news/[^/]+/\d+\.html',),
             restrict_css=('div.specialBox',)),
             callback='parse_news_content'),
-        PaginationRule(
+        pagination_rule(
             Rule(LinkExtractor(
-                allow=('/news/[^/]+/p\d+\.html'),
+                allow=('/news/[^/]+/p\d+\.html',),
                 # tricky point: the :nth-last-of-type is 0-based instead of the
                 # standard 1-based, could be the bug of python cssselect library
                 # so use with cautions
@@ -36,7 +37,7 @@ class WDZJNewsSpider(RedisMixin, CrawlSpider):
     )
 
     full_article_link_extractor = LinkExtractor(
-        allow=('/news/[^/]+/\d+-all.html'),
+        allow=('/news/[^/]+/\d+-all.html',),
         restrict_css=('div.pageList>a:last-child',))
 
     def parse_start_url(self, response):

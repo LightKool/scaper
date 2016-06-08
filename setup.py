@@ -27,5 +27,6 @@ setup(
         'pymongo',
         'readability-lxml',
         'redis',
-    ],
+        'readability'
+    ]
 )
