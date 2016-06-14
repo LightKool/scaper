@@ -11,8 +11,11 @@ RUN mkdir -p /tmp/scraper \
         libxslt-dev \
         libc-dev \
         libffi-dev \
+        openssl \
         openssl-dev \
         libtirpc-dev \
+    && mkdir -p /etc/pki/tls/certs \
+    && wget -O /etc/pki/tls/certs/ca-bundle.crt http://curl.haxx.se/ca/cacert.pem \
     && ln -s /usr/include/tirpc/rpc /usr/include/rpc \
     && ln -s /usr/include/tirpc/netconfig.h /usr/include/netconfig.h \
     && pip install --no-cache-dir service-identity
